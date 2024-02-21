@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from member.models import Member
+from member.predict.predict import predict
 from member.serializers import MemberSerializer, HeartRateSerializer, HeartRateDTOSerializer
 
 
@@ -98,6 +99,20 @@ def UpdateHRVAPI(request):
                 heart_rates.first().delete()
 
             serializer.save()
+
+            # data = {
+            #     'Age': 19,
+            #     'SBP': 126,
+            #     'DBP': 74,
+            #     'PP': 52,
+            #     'Pulse': 92,
+            #     'Blood_saturation': 100,
+            #     'Temp': 37.3,
+            #     'RMSSD': 13.92,
+            #     'Gender': 1  # M->1, F->0
+            # }
+            # caution = predict(data)
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
